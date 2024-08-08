@@ -42,6 +42,12 @@ export class ProductsController {
   @Get()
   @ApiOperation({ summary: 'Get all products' })
   @ApiQuery({
+    name: 'page',
+    required: false,
+    type: Number,
+    description: 'Page of items to return',
+  })
+  @ApiQuery({
     name: 'limit',
     required: false,
     type: Number,

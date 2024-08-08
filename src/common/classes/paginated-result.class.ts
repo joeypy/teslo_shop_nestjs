@@ -15,6 +15,9 @@ export class PaginationMeta {
 
   @ApiProperty()
   currentPage: number;
+
+  @ApiProperty()
+  offset: number;
 }
 
 export class PaginationLinks {

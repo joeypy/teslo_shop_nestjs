@@ -13,6 +13,7 @@ import { CreateProductDto } from './dtos/create-product.dto';
 import { UpdateProductDto } from './dtos/update-product.dto';
 import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { Product } from './entities/product.entity';
+import { PaginationService } from 'src/common/services/pagination.services';
 
 @Injectable()
 export class ProductsService {
@@ -21,6 +22,7 @@ export class ProductsService {
   constructor(
     @InjectRepository(Product)
     private readonly productRepository: Repository<Product>,
+    private readonly paginationService: PaginationService,
   ) {}
 
   async create(createProductDto: CreateProductDto) {
@@ -35,12 +37,13 @@ export class ProductsService {
   }
 
   findAll(paginationDto?: PaginationDto) {
-    const { limit = 10, offset = 0 } = paginationDto;
+    const { limit = 10, offset = 0, page = 1 } = paginationDto;
 
-    return this.productRepository.find({
-      take: limit,
-      skip: offset,
-      // TODO: relaciones
+    return this.paginationService.paginate(this.productRepository, {
+      page,
+      offset,
+      limit,
+      route: '/products',
     });
   }
 
